@@ -1,12 +1,12 @@
 {
-  "name": "phtml-phthml-shorthand-utility",
+  "name": "phtml-shorthand-utility",
   "version": "1.0.0",
   "description": "... in HTML",
   "author": "Gavin McFarland <5551+limitlessloop@users.noreply.github.com>",
   "license": "CC0-1.0",
-  "repository": "limitlessloop/phtml-phthml-shorthand-utility",
-  "homepage": "https://github.com/limitlessloop/phtml-phthml-shorthand-utility#readme",
-  "bugs": "https://github.com/limitlessloop/phtml-phthml-shorthand-utility/issues",
+  "repository": "limitlessloop/phtml-shorthand-utility",
+  "homepage": "https://github.com/limitlessloop/phtml-shorthand-utility#readme",
+  "bugs": "https://github.com/limitlessloop/phtml-shorthand-utility/issues",
   "main": "index.js",
   "module": "index.mjs",
   "files": [

@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import re from './util/generate-regex.js'
 
 let cssUnits = [ 'px', 'cm', 'mm', 'in', 'pt', 'pc', 'em', `ex`, `ch`, `rem`, `vw`, `vh`, `vmin`, `vmax`]
 
@@ -47,8 +48,28 @@ export default function(node) {
 
 			})
 
+			newerClassNames = []
+
+			_.each(newClassNames, function (item) {
+
+				let exact = new RegExp ('^(' + re.property.source + ')' + '(t|l|b|r)' + '$', 'gmi');
+				// TODO: Look for a more robust way to check for exact match ^
+
+				if (item.match(exact)) {
+
+					if (newerClassNames.includes(item.match(re.property)[0]) === false) newerClassNames.push(item.match(re.property)[0]);
+				}
+				else {
+					newerClassNames.push(item)
+				}
+
+			})
+
 			// Apply new style attr
-			node.attrs.add({ style: newProps.join("; ")}) // TODO: add to existing style attr values
+			node.attrs.add({ style: newProps.join("; ") }) // TODO: add to existing style attr values
+
+			// Reduce class names down to simplest form
+			node.attrs.add({ class: newerClassNames.join(" ") } )
 		}
 	})
 }

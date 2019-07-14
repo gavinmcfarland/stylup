@@ -1,7 +1,7 @@
 {
   "name": "phtml-utility-class",
   "version": "1.0.0",
-  "description": "... in HTML",
+  "description": "Write utility classes conviniently while optimising your CSS",
   "author": "Gavin McFarland <5551+limitlessloop@users.noreply.github.com>",
   "license": "CC0-1.0",
   "repository": "limitlessloop/phtml-utility-class",

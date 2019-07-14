@@ -4,7 +4,7 @@
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[pHTML Utility Class] allows you to write utility classes conviniently while optimising your CSS.
+[pHTML Utility Class] allows you to write utility classes conveniently while optimising your CSS.
 
 ```html
 <div class="p-10px,20px pt-50px"></div>

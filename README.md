@@ -1,10 +1,10 @@
-# pHTML phtml-shorthand-utility [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
+# pHTML Utility Class [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-Allows you to write shorthand utility classes conviniently while optimising your CSS.
+[pHTML Utility Class] allows you to write utility classes conviniently while optimising your CSS.
 
 ```html
 <div class="p-10px,20px pt-50px"></div>
@@ -32,48 +32,48 @@ Use with your own CSS
 Transform HTML files directly from the command line:
 
 ```bash
-npx phtml source.html output.html -p phtml-shorthand-utility
+npx phtml source.html output.html -p phtml-utility-class
 ```
 
 ### Node
 
-Add [pHTML phtml-shorthand-utility] to your project:
+Add [pHTML Utility Class] to your project:
 
 ```bash
-npm install phtml-shorthand-utility --save-dev
+npm install phtml-utility-class --save-dev
 ```
 
-Use [pHTML phtml-shorthand-utility] to process your HTML:
+Use [pHTML Utility Class] to process your HTML:
 
 ```js
-const phtmlPhthmlShorthandUtility = require('phtml-shorthand-utility');
+const phtmlUtilityClass = require('phtml-utility-class');
 
-phtmlPhthmlShorthandUtility.process(YOUR_HTML /*, processOptions, pluginOptions */);
+phtmlUtilityClass.process(YOUR_HTML /*, processOptions, pluginOptions */);
 ```
 
 Or use it as a [pHTML] plugin:
 
 ```js
 const phtml = require('phtml');
-const phtmlShorthandUtility = require('phtml-shorthand-utility');
+const phtmlUtilityClass = require('phtml-utility-class');
 
 phtml([
-  phtmlPhthmlShorthandUtility(/* pluginOptions */)
+  phtmlUtilityClass(/* pluginOptions */)
 ]).process(YOUR_HTML /*, processOptions */);
 ```
 
-[pHTML phtml-shorthand-utility] runs in all Node environments, with special instructions for:
+[pHTML Utility Class] runs in all Node environments, with special instructions for:
 
 | [Node](INSTALL.md#node) | [CLI](INSTALL.md#phtml-cli) | [Eleventy](INSTALL.md#eleventy) | [Webpack](INSTALL.md#webpack) | [Gulp](INSTALL.md#gulp) | [Grunt](INSTALL.md#grunt) |
 | --- | --- | --- | --- | --- | --- |
 
 
-[cli-img]: https://img.shields.io/travis/limitlessloop/phtml-shorthand-utility.svg
-[cli-url]: https://travis-ci.org/limitlessloop/phtml-shorthand-utility
+[cli-img]: https://img.shields.io/travis/limitlessloop/phtml-utility-class.svg
+[cli-url]: https://travis-ci.org/limitlessloop/phtml-utility-class
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg
 [git-url]: https://gitter.im/phtmlorg/phtml
-[npm-img]: https://img.shields.io/npm/v/phtml-shorthand-utility.svg
-[npm-url]: https://www.npmjs.com/package/phtml-shorthand-utility
+[npm-img]: https://img.shields.io/npm/v/phtml-utility-class.svg
+[npm-url]: https://www.npmjs.com/package/phtml-utility-class
 
 [pHTML]: https://github.com/phtmlorg/phtml
-[pHTML phtml-shorthand-utility]: https://github.com/limitlessloop/phtml-shorthand-utility
+[pHTML Utility Class]: https://github.com/limitlessloop/phtml-utility-class

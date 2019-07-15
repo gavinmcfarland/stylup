@@ -5,7 +5,7 @@ module.exports = {
   'custom-properties': {
     message: 'supports basic custom properties'
   },
-  'complex': {
+  complex: {
     message: 'supports flattened classes and custom properties'
   }
 };

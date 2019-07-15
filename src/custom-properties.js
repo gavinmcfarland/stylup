@@ -34,25 +34,30 @@ export default function(node) {
 
 			// Extract values required for style attr
 			_.each(classNames, function(className) {
-				if (className.match(REGEX)) {
-					let propName = className.match(REGEX)[1];
+				if (className.match(re.decl)) {
+					let propName = className.match(re.decl)[1];
 					let newClassName = propName;
 
-					propValue = className.match(REGEX)[2];
+					propValue = className.match(re.decl)[2];
+
 					styleValues.push({ [propName]: propValue });
 
 					// TODO: check for duplicate props as well because only needs one in output
 
-					if (newClassNames.includes(newClassName) === false)
+					if (newClassNames.includes(newClassName) === false) {
+						// console.log(className + '   --- a utility');
 						newClassNames.push(newClassName);
+					}
 				} else {
+					// console.log(className + '   --- not a utility');
 					newClassNames.push(className);
 				}
 			});
 
 			// Add new class names to element
-			node.attrs.add({ class: newClassNames.join(' ') });
+			// node.attrs.add({ class: newClassNames.join(' ') });
 
+			// Add new styles to element
 			_.each(styleValues, function(item) {
 				_.each(item, function(value, key) {
 					newProps.push(`--${key}: ${value}`);
@@ -66,11 +71,13 @@ export default function(node) {
 					'^(' + re.property.source + ')' + '(t|l|b|r)' + '$',
 					'gmi'
 				);
+
 				// TODO: Look for a more robust way to check for exact match ^
 
 				if (item.match(exact)) {
 					if (newerClassNames.includes(item.match(re.property)[0]) === false)
-						newerClassNames.push(item.match(re.property)[0]);
+						console.log(item.match(re.property)[0]);
+					newerClassNames.push(item.match(re.property)[0]);
 				} else {
 					newerClassNames.push(item);
 				}

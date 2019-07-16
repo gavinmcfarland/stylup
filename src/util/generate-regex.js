@@ -13,7 +13,7 @@ export default function genRegex(opts) {
 			number: /[0-9]*\.?[0-9]+/,
 			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
 			seperator: /,/,
-			arg: /0*({{number}})({{unit}})?/,
+			arg: /0*({{number}})({{unit}})/,
 			args: /(?:({{arg}}){{seperator}}?)+/,
 			decl: /^({{property}})-({{args}})$/
 		};

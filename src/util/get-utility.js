@@ -32,7 +32,7 @@ var otherAbbrs = (() => {
 	return abbrs;
 })();
 
-export default function getUtility(str) {
+export default function getUtility(str, re) {
 	let match = re.decl.exec(str);
 
 	let utility = {};

@@ -2,19 +2,25 @@ import _ from 'lodash';
 
 // This function generates new regexes in an object by replacing token identifiers with their regex counterparts
 
-function generateRegex() {
-	let tokens = {
-		property: /\w+/,
-		number: /[0-9]*\.?[0-9]+/,
-		unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
-		seperator: /,/,
-		arg: /0*(<number>)(<unit>)?/,
-		args: /(?:(<arg>)<seperator>?)+/,
-		decl: /(<property>)-(<args>)/
-	};
+export default function genRegex(opts) {
+	let tokens = {};
+
+	if (Object(opts).regex) {
+		tokens = opts.regex;
+	} else {
+		tokens = {
+			property: /\w+/,
+			number: /[0-9]*\.?[0-9]+/,
+			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
+			seperator: /,/,
+			arg: /0*({{number}})({{unit}})?/,
+			args: /(?:({{arg}}){{seperator}}?)+/,
+			decl: /({{property}})-({{args}})/
+		};
+	}
 
 	// Define what a token identifier looks like <word>
-	let token = /<(\w+)>/gim;
+	let token = /{{(\w+)}}/gim;
 
 	// Takes regex like /\d\w[0-9]<word>/ and replaces token identifier with matching token name
 	function replaceTokenIdent(value, tokens) {
@@ -54,5 +60,3 @@ function generateRegex() {
 		{}
 	);
 }
-
-export default generateRegex();

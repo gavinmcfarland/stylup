@@ -15,8 +15,6 @@ export default function(node) {
 			utility = getUtility(className);
 
 			if (utility) {
-				// console.log(className);
-
 				if (utility.name === 'm' || utility.name === 'p') {
 					let values = utility.args;
 

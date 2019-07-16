@@ -18,6 +18,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 				_.each(classNames, function(className) {
 					// For each class name flatten (currently only supports m and p)
 					utility = getUtility(className, re);
+					// console.log(utility);
 
 					if (utility) {
 						if (utility.name === 'm' || utility.name === 'p') {
@@ -69,8 +70,12 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 						let propName = newClassName.match(re.decl)[1];
 						let propValue = newClassName.match(re.decl)[2];
 
-						// Get styles
-						styles.push(`--${propName}: ${propValue}`);
+						if (isNaN(propValue)) {
+							// Get styles
+							styles.push(`--${propName}: ${propValue}`);
+						} else {
+							styles.push(`--${propName}: var(--${propValue})`);
+						}
 					}
 				});
 

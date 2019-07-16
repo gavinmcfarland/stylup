@@ -15,7 +15,7 @@ export default function genRegex(opts) {
 			seperator: /,/,
 			arg: /0*({{number}})({{unit}})?/,
 			args: /(?:({{arg}}){{seperator}}?)+/,
-			decl: /({{property}})-({{args}})/
+			decl: /^({{property}})-({{args}})$/
 		};
 	}
 

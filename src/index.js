@@ -3,14 +3,14 @@ import _ from 'lodash';
 import genRegex from './util/generate-regex.js';
 import getUtility from './util/get-utility.js';
 
-export default new phtml.Plugin('phtml-phthml-shorthand-utility', opts => {
+export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
 			re = genRegex(opts);
 
 			const hasClass = node.attrs.get('class');
 
-			const classNames = node.attrs.get('class').split(' ');
+			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
 			const flattened = [];
 			const newClassNames = [];
 

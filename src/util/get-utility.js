@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import re from './generate-regex.js';
 import props from '../props.js';
 
 var abbrs = (() => {
@@ -19,8 +18,7 @@ var abbrs = (() => {
 
 var otherAbbrs = (() => {
 	let abbrs = {};
-	_.each(props, function(prop, key) {
-		let args = [];
+	_.each(props, function(prop) {
 		_.each(prop, function(arg) {
 			if (arg._abbr) {
 				let newName = prop._abbr + arg._abbr;

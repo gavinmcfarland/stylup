@@ -7,5 +7,8 @@ module.exports = {
   },
   complex: {
     message: 'supports flattened classes and custom properties'
+  },
+  spacing: {
+    message: 'supports spacing'
   }
 };

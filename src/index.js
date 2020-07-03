@@ -6,7 +6,7 @@ import getUtility from './util/get-utility.js';
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
-			re = genRegex(opts);
+			const re = genRegex(opts);
 
 			const hasClass = node.attrs.get('class');
 
@@ -17,8 +17,8 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 			if (hasClass) {
 				_.each(classNames, function(className) {
 					// For each class name flatten (currently only supports m and p)
-					utility = getUtility(className, re);
-					// console.log(utility);
+					const utility = getUtility(className, re);
+
 
 					if (utility) {
 						if (utility.name === 'm' || utility.name === 'p') {
@@ -65,7 +65,10 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 				let styles = [];
 
 				// Get styles values from utilities
-				_.each(flattened, function(newClassName) {
+				_.each(flattened, function (newClassName) {
+
+					var utility = getUtility(newClassName, re)
+
 					if (newClassName.match(re.decl)) {
 						let propName = newClassName.match(re.decl)[1];
 						let propValue = newClassName.match(re.decl)[2];
@@ -74,7 +77,10 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 							// Get styles
 							styles.push(`--${propName}: ${propValue}`);
 						} else {
-							styles.push(`--${propName}: var(--${propValue})`);
+							var name = propName
+							if (utility.parent) name = utility.parent
+
+							styles.push(`--${propName}: var(--${name}:${propValue})`);
 						}
 					}
 				});

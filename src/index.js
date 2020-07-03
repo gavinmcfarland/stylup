@@ -80,7 +80,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 							var name = propName
 							if (utility.parent) name = utility.parent
 
-							styles.push(`--${propName}: var(--${name}:${propValue})`);
+							styles.push(`--${propName}: var(--${name}-${propValue})`);
 						}
 					}
 				});

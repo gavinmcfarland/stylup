@@ -39,9 +39,13 @@ export default function getUtility(str, re) {
 		utility.name = match[1];
 		utility.args = [];
 		utility.decl = match[0];
-		match[2].replace(re.arg, function(arg) {
+		/* Temporary fix for multiple arguments */
+		match[2].replace(new RegExp(re.arg, 'gmi'), function (arg) {
 			utility.args.push(arg);
 		});
+
+
+
 
 		_.each(abbrs, function(value, key) {
 			if (key === utility.name) {

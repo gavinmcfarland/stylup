@@ -11,14 +11,13 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 			const hasClass = node.attrs.get('class');
 
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
-			const flattened = [];
+			const flattenedClassNames = [];
 			const newClassNames = [];
 
 			if (hasClass) {
 				_.each(classNames, function(className) {
 					// For each class name flatten (currently only supports m and p)
 					const utility = getUtility(className, re);
-
 
 					if (utility) {
 						if (utility.name === 'm' || utility.name === 'p') {
@@ -38,7 +37,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 							// for each side push new class names into array
 							_.each(utility.params, function(side, index) {
 								className = `${side}-${values[index]}`;
-								flattened.push(className);
+								flattenedClassNames.push(className);
 							});
 						} else {
 							if (utility.parent) {
@@ -52,20 +51,20 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 									newClassNames.push(utility.name);
 								}
 							}
-							flattened.push(className);
+							flattenedClassNames.push(className);
 						}
 					}
 					// if normal word push into array
 					else {
 						newClassNames.push(className);
-						flattened.push(className);
+						flattenedClassNames.push(className);
 					}
 				});
 
 				let styles = [];
 
 				// Get styles values from utilities
-				_.each(flattened, function (newClassName) {
+				_.each(flattenedClassNames, function (newClassName) {
 
 					var utility = getUtility(newClassName, re)
 

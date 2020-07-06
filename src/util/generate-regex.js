@@ -9,7 +9,7 @@ export default function genRegex(opts) {
 		tokens = opts.regex;
 	} else {
 		tokens = {
-			property: /\w+/,
+			property: /[\w-]+/,
 			number: /[0-9]*\.?[0-9]+/,
 			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
 			seperator: /,/,
@@ -19,7 +19,7 @@ export default function genRegex(opts) {
 		};
 	}
 
-	// Define what a token identifier looks like <word>
+	// Define what a token identifier looks like <word> or {{word}}
 	let token = /{{(\w+)}}/gim;
 
 	// Takes regex like /\d\w[0-9]<word>/ and replaces token identifier with matching token name

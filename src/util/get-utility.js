@@ -44,9 +44,6 @@ export default function getUtility(str, re) {
 			utility.args.push(arg);
 		});
 
-
-
-
 		_.each(abbrs, function(value, key) {
 			if (key === utility.name) {
 				utility.params = value;

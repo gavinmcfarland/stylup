@@ -8,9 +8,13 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 		Element(node) {
 			const re = genRegex(opts);
 
+
 			const hasClass = node.attrs.get('class');
 
+
+
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
+
 			const flattenedClassNames = [];
 			const newClassNames = [];
 

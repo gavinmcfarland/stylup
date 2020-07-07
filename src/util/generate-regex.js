@@ -10,7 +10,7 @@ export default function genRegex(opts) {
 	} else {
 		tokens = {
 			property: /[\w-]+/,
-			number: /[0-9]*\.?[0-9]+/,
+			number: /[0-9]*\.?[0-9]+|\*/,
 			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
 			seperator: /,/,
 			arg: /0*({{number}})({{unit}})?/,

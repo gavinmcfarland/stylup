@@ -1,100 +1,113 @@
 import phtml from 'phtml';
+import { Element } from 'phtml';
 import _ from 'lodash';
 import genRegex from './util/generate-regex.js';
 import getUtility from './util/get-utility.js';
+import rules from '../rules.js';
+import { stripIndent } from 'common-tags'
+const shortid = require('shortid');
+
+
+
+function putValuesIntoArray(value) {
+	return Array.isArray(value) ? value : [value]
+}
+
+const classNameID = shortid.generate();
+
+
+function genStyles(utility, acc) {
+	return `${utility.style({ rule: utility, args: utility.args, str: acc })}`
+}
 
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
-			const re = genRegex(opts);
-
 
 			const hasClass = node.attrs.get('class');
-
-
-
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
-
-			const flattenedClassNames = [];
-			const newClassNames = [];
+			let styles = [];
 
 			if (hasClass) {
-				_.each(classNames, function(className) {
-					// For each class name flatten (currently only supports m and p)
-					const utility = getUtility(className, re);
+				let hasUtilities = false;
+				for (let className of classNames) {
+					for (let rule of rules) {
+						rule.property = putValuesIntoArray(rule.property);
+						var utilityClass = getUtility(className, genRegex(opts));
 
-					if (utility) {
-						if (utility.name === 'm' || utility.name === 'p') {
-							let values = utility.args;
+						for (let property of rule.property) {
 
-							switch (values.length) {
-								case 1:
-									values.push(values[0]);
-								case 2:
-									values.push(values[0]);
-								case 3:
-									values.push(values[1]);
-							}
+							var tempUtility = Object.assign({}, rule, utilityClass)
 
-							newClassNames.push(utility.name);
+							tempUtility.property = property
 
-							// for each side push new class names into array
-							_.each(utility.params, function(side, index) {
-								className = `${side}-${values[index]}`;
-								flattenedClassNames.push(className);
-							});
-						} else {
-							if (utility.parent) {
-								// Avoid pushing a duplicate
-								if (newClassNames.includes(utility.parent) === false) {
-									newClassNames.push(utility.parent);
+							if (utilityClass.property === tempUtility.property) {
+								hasUtilities = true
+								// console.log(tempUtility)
+								var output = "";
+
+								function acc(strings, ...values) {
+
+
+									if (!strings) {
+										if (typeof output !== "undefined") {
+
+											return output = output.replace(/\n$/, '');;
+										} else {
+
+											return str;
+										}
+
+									}
+									else {
+
+
+										let str = '';
+
+										strings.forEach((string, a) => {
+											str += string + (values[a] || '');
+										});
+
+										str = stripIndent(str);
+
+
+										if (typeof output !== "undefined") {
+											output += `${str}\n`;
+										}
+
+
+
+										return str;
+									}
+
+
 								}
-							} else {
-								// Avoid pushing a duplicate
-								if (newClassNames.includes(utility.name) === false) {
-									newClassNames.push(utility.name);
-								}
+
+								styles.push(genStyles(tempUtility, acc))
+
+								classNames.push(utilityClass.property);
+
 							}
-							flattenedClassNames.push(className);
 						}
 					}
-					// if normal word push into array
-					else {
-						newClassNames.push(className);
-						flattenedClassNames.push(className);
-					}
-				});
+				}
 
-				let styles = [];
+				if (hasUtilities) {
+					styles = `
+.${classNameID} {
+${styles.join('')}
+}`
 
-				// Get styles values from utilities
-				_.each(flattenedClassNames, function (newClassName) {
+					// Add new array back to element
+					var styleTag = new Element({
+						name: 'style'
+					}, null, styles)
+					node.before(styleTag)
 
-					var utility = getUtility(newClassName, re)
-
-					if (newClassName.match(re.decl)) {
-						let propName = newClassName.match(re.decl)[1];
-						let propValue = newClassName.match(re.decl)[2];
-
-						if (isNaN(propValue)) {
-							// Get styles
-							styles.push(`--${propName}: ${propValue}`);
-						} else {
-							var name = propName
-							if (utility.parent) name = utility.parent
-
-							styles.push(`--${propName}: var(--${name}-${propValue})`);
-						}
-					}
-				});
-
-				// console.log(newClassNames);
-
-				// Add new array back to element
-				node.attrs.add({ class: newClassNames.join(' ') });
-
-				// Apply new style attr
-				node.attrs.add({ style: styles.join('; ') }); // TODO: add to existing style attr values
+					// Add classNameID
+					classNames.push(classNameID)
+					node.attrs.add({ class: classNames.join(' ') });
+				}
 			}
 		}
 	};

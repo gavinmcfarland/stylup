@@ -36,24 +36,13 @@ export default function getUtility(str, re) {
 	let utility = {};
 
 	if (match !== null) {
-		utility.name = match[1];
+		utility.property = match[1];
 		utility.args = [];
 		utility.decl = match[0];
 		/* Temporary fix for multiple arguments */
 		match[2].replace(new RegExp(re.arg, 'gmi'), function (arg) {
+			if (arg === '*') arg = null
 			utility.args.push(arg);
-		});
-
-		_.each(abbrs, function(value, key) {
-			if (key === utility.name) {
-				utility.params = value;
-			}
-		});
-
-		_.each(otherAbbrs, function(value, key) {
-			if (key === utility.name) {
-				utility.parent = value;
-			}
 		});
 
 		return utility;

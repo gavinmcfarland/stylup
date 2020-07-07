@@ -34,11 +34,14 @@
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "babel-eslint": "^10.0.1",
+    "common-tags": "^1.8.0",
     "eslint": "^5.16.0",
     "phtml-tape": "^4.1.0",
     "pre-commit": "^1.2.2",
     "rollup": "^1.12.1",
-    "rollup-plugin-babel": "^4.3.2"
+    "rollup-plugin-babel": "^4.3.2",
+    "shortid": "^2.2.15",
+    "uniqid": "^5.2.0"
   },
   "eslintConfig": {
     "env": {

@@ -7,23 +7,30 @@
 [pHTML Utility Class] allows you to write utility classes conveniently while optimising your CSS.
 
 ```html
-<div class="p-10px,20px pt-50px"></div>
+<div class="p-10px,20px"></div>
 ```
 
 Becomes
 
 ```html
-<div class="p" style="--pr: 20px; --pb: 10px; --pl: 20px; --pt: 50px"></div>
+<style>
+.80YQhjg_v {
+--pt: 10px;
+--pr: 20px;
+--pb: 10px;
+--pl: 20px;
+}</style>
+<div class="p-10px,20px p 80YQhjg_v"></div>
 ```
 
 Use with your own CSS
 
 ```css
 .p {
-  padding-top: var(--pt, unset);
-  padding-right: var(--pr, unset);
-  padding-bottom: var(--pb, unset);
-  padding-left: var(--pl, unset);
+  padding-top: var(--pt, initial);
+  padding-right: var(--pr, initial);
+  padding-bottom: var(--pb, initial);
+  padding-left: var(--pl, initial);
 }
 ```
 

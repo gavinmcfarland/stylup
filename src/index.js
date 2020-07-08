@@ -6,6 +6,7 @@ import getUtility from './util/get-utility.js';
 import rules from '../rules.js';
 import { stripIndent } from 'common-tags'
 const shortid = require('shortid');
+var uniqid = require('uniqid');
 
 
 
@@ -13,7 +14,7 @@ function putValuesIntoArray(value) {
 	return Array.isArray(value) ? value : [value]
 }
 
-const classNameID = shortid.generate();
+
 
 
 function genStyles(utility, acc) {
@@ -23,6 +24,7 @@ function genStyles(utility, acc) {
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
+			const classNameID = shortid.generate();
 
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
@@ -102,7 +104,14 @@ ${styles.join('')}
 					var styleTag = new Element({
 						name: 'style'
 					}, null, styles)
-					node.before(styleTag)
+
+					// Add new array back to element
+					var spanTag = new Element({
+						name: 'span'
+					}, null, styleTag)
+
+
+					node.root.prepend(spanTag)
 
 					// Add classNameID
 					classNames.push(classNameID)

@@ -106,8 +106,6 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 			// Get styles from style attr
 			processInlineStyles(node, classNameID)
 
-
-
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
 			let styles = [];

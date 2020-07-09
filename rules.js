@@ -1,7 +1,7 @@
 export default [
 	{
 		name: 'spacing',
-		property: ['p', 'm' ],
+		class: ['p', 'm'],
 		children: [
 			't',
 			'r',
@@ -21,8 +21,24 @@ export default [
 			}
 
 			for (let [index, side] of rule.children.entries()) {
-				str`--${rule.property}${side}: ${values[index]};\n`
+				str`--${rule.class}${side}: ${values[index]};\n`
 			}
+
+			return str()
+		}
+	},
+	{
+		name: 'width',
+		class: ['w'],
+		children: [
+			't',
+			'r',
+			'b',
+			'l'
+		],
+		style: ({ rule, str }) => {
+
+			str`--${rule.class}: ${rule.args[0]};\n`
 
 			return str()
 		}

@@ -13,7 +13,7 @@ export default function genRegex(opts) {
 			number: /[0-9]*\.?[0-9]+|\*/,
 			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
 			seperator: /,/,
-			arg: /0*({{number}})({{unit}})?/,
+			arg: /0*({{number}})({{unit}})?|(\w+)/,
 			args: /(?:({{arg}}){{seperator}}?)+/,
 			decl: /^({{property}})-({{args}})$/
 		};
@@ -24,7 +24,7 @@ export default function genRegex(opts) {
 
 	// Takes regex like /\d\w[0-9]<word>/ and replaces token identifier with matching token name
 	function replaceTokenIdent(value, tokens) {
-		return value.toString().replace(token, function(match, name) {
+		return value.toString().replace(token, function (match, name) {
 			if (tokens[name]) {
 				if (tokens[name].toString().match(token)) {
 					return replaceTokenIdent(tokens[name], tokens);
@@ -39,7 +39,7 @@ export default function genRegex(opts) {
 	// Go through each token in object and replace tokens identifier with value
 	tokens = _.reduce(
 		tokens,
-		function(result, value, key) {
+		function (result, value, key) {
 			return {
 				...result,
 				[key]: replaceTokenIdent(value, tokens)
@@ -51,7 +51,7 @@ export default function genRegex(opts) {
 	// Create new regex for each token
 	return _.reduce(
 		tokens,
-		function(result, value, key) {
+		function (result, value, key) {
 			return {
 				...result,
 				[key]: new RegExp(value.replace(/\//g, ''), 'mi')

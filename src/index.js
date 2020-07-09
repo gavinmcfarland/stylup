@@ -113,17 +113,21 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 			if (hasClass) {
 				let hasUtilities = false;
 				for (let className of classNames) {
-					for (let rule of rules) {
-						rule.property = putValuesIntoArray(rule.property);
-						var utilityClass = getUtility(className, genRegex(opts));
 
-						for (let property of rule.property) {
+					var utilityClass = getUtility(className, genRegex(opts));
+
+					for (let rule of rules) {
+						rule.class = putValuesIntoArray(rule.class);
+
+						for (let property of rule.class) {
 
 							var tempUtility = Object.assign({}, rule, utilityClass)
 
-							tempUtility.property = property
+							tempUtility.class = property
 
-							if (utilityClass.property === tempUtility.property) {
+							// console.log(tempUtility.class, utilityClass.class)
+
+							if (utilityClass.class === tempUtility.class) {
 								hasUtilities = true
 								// console.log(tempUtility)
 								var output = "";
@@ -165,9 +169,11 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 								}
 
+
+
 								styles.push(genStyles(tempUtility, acc))
 
-								classNames.push(utilityClass.property);
+								classNames.push(utilityClass.class);
 
 							}
 						}

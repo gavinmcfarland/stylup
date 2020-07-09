@@ -3,9 +3,9 @@ import props from '../props.js';
 
 var abbrs = (() => {
 	let abbrs = {};
-	_.each(props, function(prop, key) {
+	_.each(props, function (prop, key) {
 		let args = [];
-		_.each(prop, function(arg) {
+		_.each(prop, function (arg) {
 			if (arg._abbr) {
 				args.push(prop._abbr + arg._abbr);
 			}
@@ -18,8 +18,8 @@ var abbrs = (() => {
 
 var otherAbbrs = (() => {
 	let abbrs = {};
-	_.each(props, function(prop) {
-		_.each(prop, function(arg) {
+	_.each(props, function (prop) {
+		_.each(prop, function (arg) {
 			if (arg._abbr) {
 				let newName = prop._abbr + arg._abbr;
 				abbrs[newName] = prop._abbr;
@@ -36,7 +36,7 @@ export default function getUtility(str, re) {
 	let utility = {};
 
 	if (match !== null) {
-		utility.property = match[1];
+		utility.class = match[1];
 		utility.args = [];
 		utility.decl = match[0];
 		/* Temporary fix for multiple arguments */
@@ -44,7 +44,6 @@ export default function getUtility(str, re) {
 			if (arg === '*') arg = null
 			utility.args.push(arg);
 		});
-
 		return utility;
 	} else {
 		return false;

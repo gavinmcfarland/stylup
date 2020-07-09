@@ -9,7 +9,6 @@ import { stripIndent } from 'common-tags'
 var uniqid = require('uniqid');
 const postcss = require('postcss');
 const postcssrc = require('postcss-load-config');
-const autoprefixer = require('autoprefixer');
 
 
 
@@ -24,13 +23,16 @@ function genStyles(utility, acc) {
 	return `${utility.style({ rule: utility, args: utility.args, str: acc })}`
 }
 
-function processInlineStyles(node) {
-	const inlineStyles = node.attrs.get('style');
-	var classNameID = uniqid();
+async function processPostCSS(src, callback) {
+	const ctx = { parser: true, map: 'inline' };
+	const { plugins, options } = postcssrc.sync();
+	const { css } = await postcss(plugins).process(src, options);
 
-	if (process.env.NODE_ENV === "test") {
-		classNameID = 'uniqid'
-	}
+	callback(css)
+}
+
+function processInlineStyles(node, classNameID) {
+	const inlineStyles = node.attrs.get('style');
 
 	if (inlineStyles) {
 		styles = `
@@ -60,11 +62,12 @@ function processInlineStyles(node) {
 		// 	node.attrs.add({ class: classNames.join(' ') });
 		// }
 
-		async function processPostCSS(src) {
 
-			const ctx = { parser: true, map: 'inline' };
-			const { plugins, options } = postcssrc.sync();
-			const { css } = await postcss(plugins).process(src, options);
+
+		// processStyles(styles, {})
+
+		processPostCSS(styles, (css) => {
+
 
 			// Add new array back to element
 			var styleTag = new Element({
@@ -84,11 +87,7 @@ function processInlineStyles(node) {
 
 			classNames.push(classNameID)
 			node.attrs.add({ class: classNames.join(' ') });
-		}
-
-		// processStyles(styles, {})
-
-		processPostCSS(styles)
+		})
 
 
 	}
@@ -97,10 +96,17 @@ function processInlineStyles(node) {
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
-			// Get styles from style attr
-			processInlineStyles(node)
 
 			var classNameID = uniqid();
+
+			if (process.env.NODE_ENV === "test") {
+				classNameID = 'uniqid'
+			}
+
+			// Get styles from style attr
+			processInlineStyles(node, classNameID)
+
+
 
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
@@ -175,23 +181,26 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 .${classNameID} {
 ${styles.join('')}
 }`
+					processPostCSS(styles, (css) => {
+						// Add new array back to element
+						var styleTag = new Element({
+							name: 'style'
+						}, null, css)
 
-					// Add new array back to element
-					var styleTag = new Element({
-						name: 'style'
-					}, null, styles)
-
-					// Add new array back to element
-					var spanTag = new Element({
-						name: 'span'
-					}, null, styleTag)
+						// Add new array back to element
+						var spanTag = new Element({
+							name: 'span'
+						}, null, styleTag)
 
 
-					node.root.prepend(spanTag)
+						node.root.prepend(spanTag)
 
-					// Add classNameID
-					classNames.push(classNameID)
-					node.attrs.add({ class: classNames.join(' ') });
+						// Add classNameID
+						classNames.push(classNameID)
+						node.attrs.add({ class: classNames.join(' ') });
+					})
+
+
 				}
 			}
 

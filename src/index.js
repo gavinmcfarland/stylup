@@ -5,8 +5,11 @@ import genRegex from './util/generate-regex.js';
 import getUtility from './util/get-utility.js';
 import rules from '../rules.js';
 import { stripIndent } from 'common-tags'
-const shortid = require('shortid');
+// const shortid = require('shortid');
 var uniqid = require('uniqid');
+const postcss = require('postcss');
+const postcssrc = require('postcss-load-config');
+const autoprefixer = require('autoprefixer');
 
 
 
@@ -23,34 +26,70 @@ function genStyles(utility, acc) {
 
 function processInlineStyles(node) {
 	const inlineStyles = node.attrs.get('style');
-	var classNameID = shortid.generate();
+	var classNameID = uniqid();
 
-	if (process.env.NODE_ENV === "development") {
+	if (process.env.NODE_ENV === "test") {
 		classNameID = 'uniqid'
 	}
 
 	if (inlineStyles) {
 		styles = `
-.${classNameID} {${inlineStyles}}`
+.${classNameID}.${classNameID} {${inlineStyles}}`
 
-		// Add new array back to element
-		var styleTag = new Element({
-			name: 'style'
-		}, null, styles)
+		// async function processStyles(src = '', ctx = {}) {
 
-		// Add new array back to element
-		var spanTag = new Element({
-			name: 'span'
-		}, null, styleTag)
+		// 	const { plugins, options } = await postcssrc(ctx)
+		// 	const { css } = await postcss(plugins).process(src, options)
 
-		node.root.prepend(spanTag)
-		node.attrs.remove('style')
+		// 	// Add new array back to element
+		// 	var styleTag = new Element({
+		// 		name: 'style'
+		// 	}, null, css)
 
-		var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
+		// 	// Add new array back to element
+		// 	var spanTag = new Element({
+		// 		name: 'span'
+		// 	}, null, styleTag)
+
+		// 	node.root.prepend(spanTag)
+		// 	node.attrs.remove('style')
+
+		// 	var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
+
+		// 	classNames.push(classNameID)
+		// 	node.attrs.add({ class: classNames.join(' ') });
+		// }
+
+		async function processPostCSS(src) {
+
+			const ctx = { parser: true, map: 'inline' };
+			const { plugins, options } = postcssrc.sync();
+			const { css } = await postcss(plugins).process(src, options);
+
+			// Add new array back to element
+			var styleTag = new Element({
+				name: 'style'
+			}, null, css)
+
+			// Add new array back to element
+			var spanTag = new Element({
+				name: 'span'
+			}, null, styleTag)
+
+			node.root.prepend(spanTag)
+			node.attrs.remove('style')
+
+			var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
 
 
-		classNames.push(classNameID)
-		node.attrs.add({ class: classNames.join(' ') });
+			classNames.push(classNameID)
+			node.attrs.add({ class: classNames.join(' ') });
+		}
+
+		// processStyles(styles, {})
+
+		processPostCSS(styles)
+
 
 	}
 }
@@ -58,7 +97,10 @@ function processInlineStyles(node) {
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
-			const classNameID = shortid.generate();
+			// Get styles from style attr
+			processInlineStyles(node)
+
+			var classNameID = uniqid();
 
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
@@ -152,11 +194,6 @@ ${styles.join('')}
 					node.attrs.add({ class: classNames.join(' ') });
 				}
 			}
-
-
-
-			// Get styles from style attr
-			processInlineStyles(node)
 
 		}
 	};

@@ -4,10 +4,12 @@
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[pHTML Utility Class] allows you to write utility classes conveniently while optimising your CSS.
+[Stylup] gives your inline styles super powers.
+
+__Inteligent functional CSS__
 
 ```html
-<div class="p-10px,20px"></div>
+<div class="p-4,1 m-*,auto"></div>
 ```
 
 Becomes
@@ -15,23 +17,47 @@ Becomes
 ```html
 <style>
 .80YQhjg_v {
---pt: 10px;
---pr: 20px;
---pb: 10px;
---pl: 20px;
+--pt: 4;
+--pr: 1;
+--pb: 4;
+--pl: 1;
+--ml: auto;
+--mr: auto;
 }</style>
-<div class="p-10px,20px p 80YQhjg_v"></div>
+<div class="p m 80YQhjg_v"></div>
 ```
 
-Use with your own CSS
+When paired with CSS becomes very powerful.
 
 ```css
 .p {
-  padding-top: var(--pt, initial);
-  padding-right: var(--pr, initial);
-  padding-bottom: var(--pb, initial);
-  padding-left: var(--pl, initial);
+  padding-top: calc(var(--pt, initial) * 1rem);
+  padding-right: calc(var(--pr, initial) * 1rem);
+  padding-bottom: calc(var(--pb, initial) * 1rem);
+  padding-left: calc(var(--pl, initial) * 1rem);
 }
+
+.m {
+  margin-top: calc(var(--mt, initial) * 1rem);
+  margin-right: calc(var(--mr, initial) * 1rem);
+  margin-bottom: calc(var(--mb, initial) * 1rem);
+  margin-left: calc(var(--ml, initial) * 1rem);
+}
+```
+
+__Fully featured CSS inline__
+
+Even supports PostCSS.
+
+```html
+<div style="{
+  padding: 4em 1em;
+  margin-block: auto;
+
+  &:hover {
+    background-color: red;
+  }
+}"></div>
 ```
 
 ## Usage
@@ -83,4 +109,4 @@ phtml([
 [npm-url]: https://www.npmjs.com/package/phtml-utility-class
 
 [pHTML]: https://github.com/phtmlorg/phtml
-[pHTML Utility Class]: https://github.com/limitlessloop/phtml-utility-class
+[Stylup]: https://github.com/limitlessloop/phtml-utility-class

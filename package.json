@@ -21,7 +21,7 @@
     "pretest:tape": "npm run build",
     "test": "npm run test:tape",
     "test:js": "eslint src/{*,**/*}.js --cache --ignore-path .gitignore --quiet",
-    "test:tape": "phtml-tape"
+    "test:tape": "NODE_ENV=development phtml-tape"
   },
   "engines": {
     "node": ">=8.0.0"

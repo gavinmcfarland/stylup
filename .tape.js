@@ -14,4 +14,7 @@ module.exports = {
   // example: {
   //   message: 'testing example'
   // }
+  styles: {
+    message: 'styles example'
+  }
 };

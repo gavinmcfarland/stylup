@@ -21,6 +21,40 @@ function genStyles(utility, acc) {
 	return `${utility.style({ rule: utility, args: utility.args, str: acc })}`
 }
 
+function processInlineStyles(node) {
+	const inlineStyles = node.attrs.get('style');
+	var classNameID = shortid.generate();
+
+	if (process.env.NODE_ENV === "development") {
+		classNameID = 'uniqid'
+	}
+
+	if (inlineStyles) {
+		styles = `
+.${classNameID} {${inlineStyles}}`
+
+		// Add new array back to element
+		var styleTag = new Element({
+			name: 'style'
+		}, null, styles)
+
+		// Add new array back to element
+		var spanTag = new Element({
+			name: 'span'
+		}, null, styleTag)
+
+		node.root.prepend(spanTag)
+		node.attrs.remove('style')
+
+		var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
+
+
+		classNames.push(classNameID)
+		node.attrs.add({ class: classNames.join(' ') });
+
+	}
+}
+
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
@@ -118,6 +152,12 @@ ${styles.join('')}
 					node.attrs.add({ class: classNames.join(' ') });
 				}
 			}
+
+
+
+			// Get styles from style attr
+			processInlineStyles(node)
+
 		}
 	};
 });

@@ -90,7 +90,10 @@ function processInlineStyles(node, classNameID) {
 				name: 'span'
 			}, null, styleTag)
 
-			node.root.prepend(spanTag)
+			spanTag.attrs.add({ style: 'display: none' })
+			spanTag.attrs.add({ class: 'stylup-sb' })
+
+			node.before(spanTag)
 			node.attrs.remove('style')
 
 			var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
@@ -193,7 +196,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 				if (hasUtilities) {
 					styles = `
-.${classNameID} {
+.${classNameID}.${classNameID} {
 ${styles.join('')}
 }`
 					processPostCSS(styles, (css) => {
@@ -207,8 +210,10 @@ ${styles.join('')}
 							name: 'span'
 						}, null, styleTag)
 
+						spanTag.attrs.add({ style: 'display: none' })
+						spanTag.attrs.add({ class: 'stylup-sb' })
 
-						node.root.prepend(spanTag)
+						node.before(spanTag)
 
 						// Add classNameID
 						classNames.push(classNameID)

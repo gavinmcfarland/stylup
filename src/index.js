@@ -3,14 +3,25 @@ import { Element } from 'phtml';
 import _ from 'lodash';
 import genRegex from './util/generate-regex.js';
 import getUtility from './util/get-utility.js';
-import rules from '../rules.js';
+// import rules from '../rules.js';
 import { stripIndent } from 'common-tags'
+import fs from 'fs-extra'
 // const shortid = require('shortid');
 var uniqid = require('uniqid');
 const postcss = require('postcss');
 const postcssrc = require('postcss-load-config');
 
 
+// Get rules definitions
+
+var rules;
+
+if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
+
+	rules = require(process.cwd() + '/' + 'stylup.config.js')
+	// console.log(rules)
+
+}
 
 function putValuesIntoArray(value) {
 	return Array.isArray(value) ? value : [value]

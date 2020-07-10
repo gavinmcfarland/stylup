@@ -1,4 +1,4 @@
-export default [
+module.exports = [
 	{
 		name: 'spacing',
 		class: ['p', 'm'],
@@ -28,8 +28,8 @@ export default [
 		}
 	},
 	{
-		name: 'width',
-		class: ['w'],
+		name: 'colour',
+		class: ['c'],
 		children: [
 			't',
 			'r',
@@ -42,5 +42,31 @@ export default [
 
 			return str()
 		}
-	}
+	},
+	{
+		name: 'background color',
+		class: ['bgc'],
+		children: [
+			't',
+			'r',
+			'b',
+			'l'
+		],
+		style: ({ rule, str }) => {
+
+			str`--${rule.class}: ${rule.args[0]};\n`
+
+			return str()
+		}
+	},
+	{
+		name: 'width',
+		class: ['w'],
+		style: ({ rule, str }) => {
+
+			str`--${rule.class}: ${rule.args[0]};\n`
+
+			return str()
+		}
+	},
 ]

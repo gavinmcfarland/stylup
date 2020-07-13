@@ -9,13 +9,13 @@ export default function genRegex(opts) {
 		tokens = opts.regex;
 	} else {
 		tokens = {
-			property: /[\w-]+/,
+			property: /[^-\s]+/,
 			number: /[0-9]*\.?[0-9]+|\*/,
 			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
 			seperator: /,/,
 			arg: /0*({{number}})({{unit}})?|(\w+)/,
 			args: /(?:({{arg}}){{seperator}}?)+/,
-			decl: /^({{property}})-({{args}})$/
+			decl: /^({{property}})(?:-({{args}}))?$/
 		};
 	}
 

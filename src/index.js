@@ -31,7 +31,15 @@ function putValuesIntoArray(value) {
 
 
 function genStyles(utility, acc) {
-	return `${utility.style({ rule: utility, args: utility.args, str: acc })}`
+	var styles = ''
+	if (utility.style({ rule: utility, args: utility.args, str: acc }) === undefined) {
+		console.log('styles are undefined')
+		styles = ''
+	} else {
+		styles = utility.style({ rule: utility, args: utility.args, str: acc })
+	}
+
+	return `${styles}`
 }
 
 async function processPostCSS(src, callback) {
@@ -122,28 +130,48 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
+			let newClassNames = [...classNames]
 			let styles = [];
 
 			if (hasClass) {
 				let hasUtilities = false;
 				for (let className of classNames) {
 
-					var utilityClass = getUtility(className, genRegex(opts));
 
+
+					var re = genRegex(opts)
+
+					var utilityClass = getUtility(className, re);
+
+					// if (utilityClass) {
+					// 	console.log('utility class')
+					// }
+					// else {
+					// 	console.log('not utilit class')
+					// }
 					for (let rule of rules) {
 						rule.class = putValuesIntoArray(rule.class);
 
 						for (let property of rule.class) {
 
-							var tempUtility = Object.assign({}, rule, utilityClass)
+							var tempRule = Object.assign({}, rule)
 
-							tempUtility.class = property
+							tempRule.class = property
 
-							// console.log(tempUtility.class, utilityClass.class)
 
-							if (utilityClass.class === tempUtility.class) {
+
+							if (utilityClass.class === tempRule.class) {
+
+								// console.log(utilityClass)
+
+								tempRule = Object.assign(tempRule, utilityClass)
+
+								// console.log(utilityClass)
+
+								// console.log(tempRule)
+
 								hasUtilities = true
-								// console.log(tempUtility)
+
 								var output = "";
 
 								function acc(strings, ...values) {
@@ -185,9 +213,9 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 
 
-								styles.push(genStyles(tempUtility, acc))
+								styles.push(genStyles(tempRule, acc))
 
-								classNames.push(utilityClass.class);
+								newClassNames.push(utilityClass.class);
 
 							}
 						}
@@ -216,8 +244,8 @@ ${styles.join('')}
 						node.before(spanTag)
 
 						// Add classNameID
-						classNames.push(classNameID)
-						node.attrs.add({ class: classNames.join(' ') });
+						newClassNames.push(classNameID)
+						node.attrs.add({ class: newClassNames.join(' ') });
 					})
 
 

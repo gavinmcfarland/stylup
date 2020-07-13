@@ -8,7 +8,7 @@ module.exports = [
 			'b',
 			'l'
 		],
-		style: ({ rule, str }) => {
+		style({ rule, str }) {
 			if (rule.args) {
 				let values = rule.args;
 
@@ -31,14 +31,8 @@ module.exports = [
 	},
 	{
 		name: 'colour',
-		class: ['c'],
-		children: [
-			't',
-			'r',
-			'b',
-			'l'
-		],
-		style: ({ rule, str }) => {
+		class: 'c',
+		style({ rule, str }) {
 			if (rule.args) {
 
 				str`--${rule.class}: ${rule.args[0]};\n`
@@ -49,14 +43,8 @@ module.exports = [
 	},
 	{
 		name: 'background color',
-		class: ['bgc'],
-		children: [
-			't',
-			'r',
-			'b',
-			'l'
-		],
-		style: ({ rule, str }) => {
+		class: 'bgc',
+		style({ rule, str }) {
 			if (rule.args) {
 
 				str`--${rule.class}: ${rule.args[0]};\n`
@@ -67,8 +55,8 @@ module.exports = [
 	},
 	{
 		name: 'width',
-		class: ['w'],
-		style: ({ rule, str }) => {
+		class: 'w',
+		style({ rule, str }) {
 			if (rule.args) {
 				str`--${rule.class}: ${rule.args[0]};\n`
 

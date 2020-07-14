@@ -15,7 +15,7 @@ export default function genRegex(opts) {
 			seperator: /,/,
 			arg: /0*({{number}})({{unit}})?|(\w+)/,
 			args: /(?:({{arg}}){{seperator}}?)+/,
-			decl: /^({{property}})(?:-({{args}}))?$/
+			decl: /({{property}})(?:-({{args}}))?/
 		};
 	}
 
@@ -54,7 +54,7 @@ export default function genRegex(opts) {
 		function (result, value, key) {
 			return {
 				...result,
-				[key]: new RegExp(value.replace(/\//g, ''), 'mi')
+				[key]: new RegExp(value.replace(/\//g, ''), 'gmi')
 			};
 		},
 		{}

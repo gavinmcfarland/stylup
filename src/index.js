@@ -2,11 +2,9 @@ import phtml from 'phtml';
 import { Element } from 'phtml';
 import _ from 'lodash';
 import genRegex from './util/generate-regex.js';
-import getUtility from './util/get-utility.js';
-// import rules from '../rules.js';
+import getUtilities from './util/get-utility.js';
 import { stripIndent } from 'common-tags'
 import fs from 'fs-extra'
-// const shortid = require('shortid');
 var uniqid = require('uniqid');
 const postcss = require('postcss');
 const postcssrc = require('postcss-load-config');
@@ -18,7 +16,7 @@ var rules;
 
 if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
 
-	rules = require(process.cwd() + '/' + 'stylup.config.js')
+	rules = require(process.cwd() + '/' + 'stylup.config.js').classes
 	// console.log(rules)
 
 }
@@ -26,9 +24,6 @@ if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
 function putValuesIntoArray(value) {
 	return Array.isArray(value) ? value : [value]
 }
-
-
-
 
 function genStyles(utility, acc) {
 	var styles = ''
@@ -57,34 +52,6 @@ function processInlineStyles(node, classNameID) {
 		styles = `
 .${classNameID}.${classNameID} {${inlineStyles}}`
 
-		// async function processStyles(src = '', ctx = {}) {
-
-		// 	const { plugins, options } = await postcssrc(ctx)
-		// 	const { css } = await postcss(plugins).process(src, options)
-
-		// 	// Add new array back to element
-		// 	var styleTag = new Element({
-		// 		name: 'style'
-		// 	}, null, css)
-
-		// 	// Add new array back to element
-		// 	var spanTag = new Element({
-		// 		name: 'span'
-		// 	}, null, styleTag)
-
-		// 	node.root.prepend(spanTag)
-		// 	node.attrs.remove('style')
-
-		// 	var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
-
-		// 	classNames.push(classNameID)
-		// 	node.attrs.add({ class: classNames.join(' ') });
-		// }
-
-
-
-		// processStyles(styles, {})
-
 		processPostCSS(styles, (css) => {
 
 
@@ -105,7 +72,6 @@ function processInlineStyles(node, classNameID) {
 			node.attrs.remove('style')
 
 			var classNames = node.attrs.get('class') ? node.attrs.get('class').split(' ') : undefined || [];
-
 
 			classNames.push(classNameID)
 			node.attrs.add({ class: classNames.join(' ') });
@@ -130,18 +96,20 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 			const hasClass = node.attrs.get('class');
 			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
+			var re = genRegex(opts)
+
+			var utilities = getUtilities(hasClass, re);
+
+
 			let newClassNames = [...classNames]
 			let styles = [];
 
 			if (hasClass) {
 				let hasUtilities = false;
-				for (let className of classNames) {
 
 
+				for (let utility of utilities) {
 
-					var re = genRegex(opts)
-
-					var utilityClass = getUtility(className, re);
 
 					// if (utilityClass) {
 					// 	console.log('utility class')
@@ -160,15 +128,11 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 
 
-							if (utilityClass.class === tempRule.class) {
+							if (utility.class === tempRule.class) {
 
-								// console.log(utilityClass)
 
-								tempRule = Object.assign(tempRule, utilityClass)
+								tempRule = Object.assign(tempRule, utility)
 
-								// console.log(utilityClass)
-
-								// console.log(tempRule)
 
 								hasUtilities = true
 
@@ -215,7 +179,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 								styles.push(genStyles(tempRule, acc))
 
-								newClassNames.push(utilityClass.class);
+								newClassNames.push(utility.class);
 
 							}
 						}

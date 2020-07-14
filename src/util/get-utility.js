@@ -1,42 +1,53 @@
 import _ from 'lodash';
-import { unlink } from 'fs-extra';
 
-export default function getUtility(str, re) {
+export default function getUtilities(str, re) {
 
-	var declRe = /([^-\s]+)(?:-([^\s]+))?/
+	function findMatches(regex, str, matches = []) {
+		const res = regex.exec(str)
+		res && matches.push(res) && findMatches(regex, str, matches)
+		return matches
+	}
 
-	let match = re.decl.exec(str);
+	// var declRe = new RegExp(/\b([^-\s]+)(?:-((?:(0*([0-9]*\.?[0-9]+|\*)(px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax)?|(\w+)),?)+))?\b/, 'gi')
 
+	// let match = str.match(/\b([^-\s]+)(?:-((?:(0*([0-9]*\.?[0-9]+|\*)(px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax)?|(\w+)),?)+))?\b/g);
+
+	const matches = findMatches(re.decl, str)
 	// console.log(match)
 
+	let utilities = []
 
 
-	let utility = {};
+	for (let i = 0; i < matches.length; i++) {
+		let match = matches[i]
 
-	if (match !== null) {
-		utility.class = match[1];
 
-		// console.log(re.decl)
-		utility.args = [];
-		utility.decl = match[0];
+		let utility = {};
 
-		if (match[2]) {
-			/* Temporary fix for multiple arguments */
-			match[2].replace(new RegExp(re.arg, 'gmi'), function (arg) {
+		if (match !== null) {
+			utility.class = match[1];
 
-				if (arg === '*') arg = null
-				utility.args.push(arg);
-			});
+			// console.log(re.decl)
+			utility.args = [];
+			utility.decl = match[0];
+
+			if (match[2]) {
+				/* Temporary fix for multiple arguments */
+				match[2].replace(new RegExp(re.arg, 'gmi'), function (arg) {
+
+					if (arg === '*') arg = null
+					utility.args.push(arg);
+				});
+			}
+
+			if (utility.args.length === 0) {
+				utility.args = null;
+			}
+
+			utilities.push(utility);
 		}
-
-		if (utility.args.length === 0) {
-			utility.args = null;
-		}
-
-		// console.log(utility)
-
-		return utility;
-	} else {
-		return false;
 	}
+
+	return utilities
+
 }

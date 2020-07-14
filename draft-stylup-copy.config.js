@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	classes: [
 		{
 			name: 'spacing',
@@ -9,9 +9,9 @@ module.exports = {
 				'b',
 				'l'
 			],
-			style({ rule, args, str }) {
-				if (args) {
-					let values = args;
+			style({ rule, str }) {
+				if (rule.args) {
+					let values = rule.args;
 
 					switch (values.length) {
 						case 1:
@@ -64,6 +64,18 @@ module.exports = {
 					return str()
 				}
 			}
-		},
+		}
+	],
+	queries: [
+		{
+			name: 'h',
+			style({ name, property, output, str }) {
+				return str`
+				&:hover {
+					${output}
+				}
+				`
+			}
+		}
 	]
 }

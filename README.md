@@ -66,6 +66,25 @@ When paired with your stylesheet becomes very powerful.
 
 ---
 
+- ### Custom Syntax
+
+  Use you're own syntax by customising overiding the regex pattern. Pass new regex to plugin `stylup.process(html, null, options)`;
+
+  ```js
+  // Options
+  let options = {
+    tokens = {
+			property: /[^-\s]+/,
+			number: /[0-9]*\.?[0-9]+|\*/,
+			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
+			seperator: /,/,
+			arg: /0*({{number}})({{unit}})?|(\w+)/,
+			args: /(?:({{arg}}){{seperator}}?)+/,
+			decl: /({{property}})(?:-({{args}}))?/
+		};
+  }
+  ```
+
 - ### Supports PostCSS
 
   Add support for PostCSS by including a `postcss.config.js` file in your project.

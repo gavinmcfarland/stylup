@@ -8,25 +8,30 @@
 
 ## Example
 
-Inteligent functional classes which create inline styles based on their arguments.
+Use Stylup to write inteligent functional classes based on their arguments.
 
 ```html
-<div class="p-4,1,*"></div>
+<div class="p-4,1,* h?color-red"></div>
 ```
 
-Stylup transforms into styles.
+Stylup transforms into styles based on your [configuration](#configuration).
 
 ```html
 <style>
 .80YQhjgv {
---pt: 4;
---pr: 1;
---pl: 1;
-}</style>
-<div class="p 80YQhjgv"></div>
+  --pt: 4;
+  --pr: 1;
+  --pl: 1;
+}
+.80YQhjgv:hover {
+  --color: red;
+}
+</style>
+<div class="p c 80YQhjgv"></div>
 ```
+You can configure class functions to output whatever you like.
 
-When paired with your stylesheet becomes very powerful.
+When used with a stylesheet it becomes very powerful, requiring minimal pre configuration to work with your design system.
 
 ```css
 .p {
@@ -42,6 +47,10 @@ When paired with your stylesheet becomes very powerful.
   margin-bottom: calc(var(--mb, initial) * 1rem);
   margin-left: calc(var(--ml, initial) * 1rem);
 }
+
+.c {
+  color: var(--color, initial)
+}
 ```
 
 ## Features
@@ -56,6 +65,15 @@ When paired with your stylesheet becomes very powerful.
 
 ---
 
+- ### Pseudo Classes and Media Queries <mark>(planned)</mark>
+
+  Configure support for pseduo classes and media queries.
+
+  ```html
+  <div class="h?c-red p-[1,2],4 h?w-1/2"></div>
+  ```
+---
+
 - ### Inline Styles
 
   Make use of all CSS features inline including hover states and media queries.
@@ -66,29 +84,30 @@ When paired with your stylesheet becomes very powerful.
 
 ---
 
-- ### Custom Syntax
-
-  Use you're own syntax by customising overiding the regex pattern. Pass new regex to plugin `stylup.process(html, null, options)`;
-
-  ```js
-  // Options
-  let options = {
-    tokens = {
-			property: /[^-\s]+/,
-			number: /[0-9]*\.?[0-9]+|\*/,
-			unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
-			seperator: /,/,
-			arg: /0*({{number}})({{unit}})?|(\w+)/,
-			args: /(?:({{arg}}){{seperator}}?)+/,
-			decl: /({{property}})(?:-({{args}}))?/
-		};
-  }
-  ```
-
 - ### Supports PostCSS
 
   Add support for PostCSS by including a `postcss.config.js` file in your project.
 
+---
+
+- ### Custom Syntax
+
+  Customise the syntax used for functional classes by by overiding the default regex pattern. `stylup.process(html, null, options)`;
+
+  ```js
+  // Options
+  let options = {
+    regex: {
+      property: /[^-\s]+/,
+      number: /[0-9]*\.?[0-9]+|\*/,
+      unit: /px|cm|mm|in|pt|pc|em|ex|ch|rem|vw|vh|vmin|vmax/,
+      seperator: /,/,
+      arg: /0*({{number}})({{unit}})?|(\w+)/,
+      args: /(?:({{arg}}){{seperator}}?)+/,
+      decl: /({{property}})(?:-({{args}}))?/
+		};
+  }
+  ```
 
 ## Configure
 
@@ -96,29 +115,31 @@ By default `stylup` will look for a file called `stylup.config.js` at the root o
 
 ```js
 // stylup.config.js
-module.exports = [
-  {
-    property: 'p',
-    children: [
-      't',
-      'r',
-      'b',
-      'l'
-    ],
-    style: ({ property, children, args, str }) => {
+module.exports = {
+  classes: [
+    {
+      class: 'p',
+      children: [
+        't',
+        'r',
+        'b',
+        'l'
+      ],
+      style: ({ property, children, args, str }) => {
 
-      if (args.length < 3) args.push(args[0])
-      else args.push(args[1])
+        if (args.length < 3) args.push(args[0])
+        else args.push(args[1])
 
-      for (let [i, side] of children.entries()) {
-        str`--${property}${side}: ${args[i]};`
+        for (let [i, side] of children.entries()) {
+          str`--${property}${side}: ${args[i]};`
+        }
+
+        return str()
       }
-
-      return str()
     }
-  }
-  // ...
-]
+    // ...
+  ]
+}
 ```
 
 ## Usage

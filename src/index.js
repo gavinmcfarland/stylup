@@ -28,7 +28,6 @@ function putValuesIntoArray(value) {
 function genStyles(utility, acc) {
 	var styles = ''
 	if (utility.style({ rule: utility, args: utility.args, str: acc }) === undefined) {
-		console.log('styles are undefined')
 		styles = ''
 	} else {
 		styles = utility.style({ rule: utility, args: utility.args, str: acc })
@@ -40,7 +39,7 @@ function genStyles(utility, acc) {
 async function processPostCSS(src, callback) {
 	const ctx = { parser: true, map: 'inline' };
 	const { plugins, options } = postcssrc.sync();
-	const { css } = await postcss(plugins).process(src, options);
+	const { css } = await postcss(plugins).process(src, { from: undefined });
 
 	callback(css)
 }

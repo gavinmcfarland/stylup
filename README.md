@@ -1,17 +1,17 @@
-# Stylup [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
+# pHTML Utility Class [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[Stylup] gives your markup super powers.
+[pHTML Utility Class] gives your markup super powers.
 
 ## Example
 
 Use Stylup to write inteligent functional classes based on their arguments.
 
 ```html
-<div class="p-4,1,* h?color-red"></div>
+<div class="p-4,1,*"></div>
 ```
 
 Stylup transforms into styles based on your [configuration](#configuration).
@@ -23,11 +23,8 @@ Stylup transforms into styles based on your [configuration](#configuration).
   --pr: 1;
   --pl: 1;
 }
-.80YQhjgv:hover {
-  --color: red;
-}
 </style>
-<div class="p c 80YQhjgv"></div>
+<div class="p 80YQhjgv"></div>
 ```
 You can configure class functions to output whatever you like.
 
@@ -40,17 +37,6 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
   padding-bottom: calc(var(--pb, initial) * 1rem);
   padding-left: calc(var(--pl, initial) * 1rem);
 }
-
-.m {
-  margin-top: calc(var(--mt, initial) * 1rem);
-  margin-right: calc(var(--mr, initial) * 1rem);
-  margin-bottom: calc(var(--mb, initial) * 1rem);
-  margin-left: calc(var(--ml, initial) * 1rem);
-}
-
-.c {
-  color: var(--color, initial)
-}
 ```
 
 ## Features
@@ -62,8 +48,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
   ```html
   <div class="p-4 m-*,auto fl-wrap"></div>
   ```
-
----
+<!-- ---
 
 - ### Pseudo Classes and Media Queries <mark>(planned)</mark>
 
@@ -71,7 +56,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
   ```html
   <div class="h?c-red p-[1,2],4 h?w-1/2"></div>
-  ```
+  ``` -->
 ---
 
 - ### Inline Styles
@@ -92,7 +77,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 - ### Custom Syntax
 
-  Customise the syntax used for functional classes by by overiding the default regex pattern. `stylup.process(html, null, options)`;
+  Customise the syntax used for functional classes by by overiding the default regex pattern. `phtml-utility-class.process(html, null, options)`;
 
   ```js
   // Options
@@ -111,10 +96,10 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 ## Configure
 
-By default `stylup` will look for a file called `stylup.config.js` at the root of your project.
+By default `phtml-utility-class` will look for a file called `phtml-utility-class.config.js` at the root of your project.
 
 ```js
-// stylup.config.js
+// phtml-utility-class.config.js
 module.exports = {
   classes: [
     {
@@ -144,37 +129,37 @@ module.exports = {
 
 ## Usage
 
-Add [Stylup] to your project:
+Add [phtml-utility-class] to your project:
 
 ```bash
-npm install stylup --save-dev
+npm install phtml-utility-class --save-dev
 ```
 
-Use [Stylup] to process your HTML:
+Use [phtml-utility-class] to process your HTML:
 
 ```js
-const stylup = require('stylup');
+const phtmlUtilityClass = require('phtml-utility-class');
 
-stylup.process(YOUR_HTML /*, processOptions, pluginOptions */);
+phtmlUtilityClass.process(YOUR_HTML /*, processOptions, pluginOptions */);
 ```
 
 Or use it as a [pHTML] plugin:
 
 ```js
 const phtml = require('phtml');
-const stylup = require('stylup');
+const phtmlUtilityClass = require('phtml-utility-class');
 
 phtml([
-  stylup(/* pluginOptions */)
+  phtmlUtilityClass(/* pluginOptions */)
 ]).process(YOUR_HTML /*, processOptions */);
 ```
 
-[cli-img]: https://img.shields.io/travis/limitlessloop/stylup.svg
-[cli-url]: https://travis-ci.org/limitlessloop/stylup
+[cli-img]: https://img.shields.io/travis/limitlessloop/phtml-utility-class.svg
+[cli-url]: https://travis-ci.org/limitlessloop/phtml-utility-class
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg
 [git-url]: https://gitter.im/phtmlorg/phtml
-[npm-img]: https://img.shields.io/npm/v/stylup.svg
-[npm-url]: https://www.npmjs.com/package/stylup
+[npm-img]: https://img.shields.io/npm/v/phtml-utility-class.svg
+[npm-url]: https://www.npmjs.com/package/phtml-utility-class
 
 [pHTML]: https://github.com/phtmlorg/phtml
-[Stylup]: https://github.com/limitlessloop/stylup
+[pHTML Utility Class]: https://github.com/limitlessloop/phtml-utility-class

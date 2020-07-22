@@ -8,13 +8,13 @@
 
 ## Example
 
-Use Stylup to write inteligent functional classes based on their arguments.
+Use to write inteligent functional classes based on their arguments.
 
 ```html
 <div class="p-4,1,*"></div>
 ```
 
-Stylup transforms into styles based on your [configuration](#configuration).
+Transforms into styles based on your [configuration](#configuration).
 
 ```html
 <style>

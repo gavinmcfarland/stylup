@@ -45,6 +45,7 @@ async function processPostCSS(src, callback) {
 }
 
 function processInlineStyles(node, classNameID) {
+
 	const inlineStyles = node.attrs.get('style');
 
 	if (inlineStyles) {
@@ -94,16 +95,17 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 			processInlineStyles(node, classNameID)
 
 			const hasClass = node.attrs.get('class');
-			const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
-			var re = genRegex(opts)
-
-			var utilities = getUtilities(hasClass, re);
-
-
-			let newClassNames = [...classNames]
-			let styles = [];
-
 			if (hasClass) {
+				const classNames = hasClass ? node.attrs.get('class').split(' ') : null;
+				var re = genRegex(opts)
+
+				var utilities = getUtilities(hasClass, re);
+
+
+				let newClassNames = [...classNames]
+				let styles = [];
+
+
 				let hasUtilities = false;
 
 

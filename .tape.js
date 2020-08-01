@@ -11,6 +11,9 @@ module.exports = {
   // spacing: {
   //   message: 'supports spacing'
   // },
+  normal: {
+    message: 'normal html'
+  },
   example: {
     message: 'testing example'
   },

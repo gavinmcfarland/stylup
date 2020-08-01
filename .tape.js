@@ -18,6 +18,9 @@ module.exports = {
     message: 'testing example'
   },
   styles: {
-    message: 'styles example'
+    message: 'styles example',
+    options: {
+      processBlockStyles: true,
+    }
   }
 };

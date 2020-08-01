@@ -82,8 +82,20 @@ function processInlineStyles(node, classNameID) {
 }
 
 export default new phtml.Plugin('phtml-utility-class', opts => {
+	opts = opts || {}
 	return {
 		Element(node) {
+
+			if (opts.processBlockStyles) {
+				if (node.name === "style") {
+					let styles = node.innerHTML
+					processPostCSS(styles, (css) => {
+
+						node.innerHTML = css
+					})
+				}
+			}
+
 
 			var classNameID = uniqid();
 

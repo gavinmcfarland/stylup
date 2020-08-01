@@ -38,8 +38,9 @@ function genStyles(utility, acc) {
 
 async function processPostCSS(src, callback) {
 	const ctx = { parser: true, map: 'inline' };
-	const { plugins, options } = postcssrc.sync();
+	const { plugins, options } = postcssrc.sync(ctx);
 	const { css } = await postcss(plugins).process(src, { from: undefined });
+
 
 	callback(css)
 }
@@ -88,8 +89,9 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 
 			if (opts.processBlockStyles) {
 				if (node.name === "style") {
-					let styles = node.innerHTML
-					processPostCSS(styles, (css) => {
+					const target = node.nodes[0];
+					const source = target.data;
+					processPostCSS(source, (css) => {
 
 						node.innerHTML = css
 					})

@@ -163,3 +163,14 @@ phtml([
 
 [pHTML]: https://github.com/phtmlorg/phtml
 [pHTML Utility Class]: https://github.com/limitlessloop/phtml-utility-class
+
+## Options 
+
+By default block styles are not processed. Set this to true to process them. `phtml-utility-class.process(html, null, options)`.
+
+```js
+// Options
+let options = {
+  processBlockStyles: true
+}
+```

@@ -20,6 +20,9 @@ if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
 	// console.log(rules)
 
 }
+else {
+	rules = undefined
+}
 
 function putValuesIntoArray(value) {
 	return Array.isArray(value) ? value : [value]
@@ -132,70 +135,72 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 					// else {
 					// 	console.log('not utilit class')
 					// }
-					for (let rule of rules) {
-						rule.class = putValuesIntoArray(rule.class);
+					if (rules) {
+						for (let rule of rules) {
+							rule.class = putValuesIntoArray(rule.class);
 
-						for (let property of rule.class) {
+							for (let property of rule.class) {
 
-							var tempRule = Object.assign({}, rule)
+								var tempRule = Object.assign({}, rule)
 
-							tempRule.class = property
-
-
-
-							if (utility.class === tempRule.class) {
+								tempRule.class = property
 
 
-								tempRule = Object.assign(tempRule, utility)
+
+								if (utility.class === tempRule.class) {
 
 
-								hasUtilities = true
-
-								var output = "";
-
-								function acc(strings, ...values) {
+									tempRule = Object.assign(tempRule, utility)
 
 
-									if (!strings) {
-										if (typeof output !== "undefined") {
+									hasUtilities = true
 
-											return output = output.replace(/\n$/, '');;
-										} else {
+									var output = "";
+
+									function acc(strings, ...values) {
+
+
+										if (!strings) {
+											if (typeof output !== "undefined") {
+
+												return output = output.replace(/\n$/, '');;
+											} else {
+
+												return str;
+											}
+
+										}
+										else {
+
+
+											let str = '';
+
+											strings.forEach((string, a) => {
+												str += string + (values[a] || '');
+											});
+
+											str = stripIndent(str);
+
+
+											if (typeof output !== "undefined") {
+												output += `${str}\n`;
+											}
+
+
 
 											return str;
 										}
 
-									}
-									else {
 
-
-										let str = '';
-
-										strings.forEach((string, a) => {
-											str += string + (values[a] || '');
-										});
-
-										str = stripIndent(str);
-
-
-										if (typeof output !== "undefined") {
-											output += `${str}\n`;
-										}
-
-
-
-										return str;
 									}
 
+
+
+									styles.push(genStyles(tempRule, acc))
+
+									newClassNames.push(utility.class);
 
 								}
-
-
-
-								styles.push(genStyles(tempRule, acc))
-
-								newClassNames.push(utility.class);
-
 							}
 						}
 					}

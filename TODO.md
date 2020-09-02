@@ -9,6 +9,7 @@
         block: true,
         inline: true
     },
+    regex: {},
     classes: [
         {
             name: 'spacing',

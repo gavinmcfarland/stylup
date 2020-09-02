@@ -14,9 +14,9 @@ const postcssrc = require('postcss-load-config');
 
 var rules;
 
-if (fs.existsSync(process.cwd() + '/' + 'phtml-utility-class.config.js')) {
+if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
 
-	rules = require(process.cwd() + '/' + 'phtml-utility-class.config.js').classes
+	rules = require(process.cwd() + '/' + 'stylup.config.js').classes
 	// console.log(rules)
 
 }

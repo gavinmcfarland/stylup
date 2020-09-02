@@ -1,12 +1,12 @@
 {
-  "name": "phtml-utility-class",
-  "version": "3.0.3",
+  "name": "stylup",
+  "version": "0.0.0-alpha",
   "description": "Write utility classes conveniently while optimising your CSS",
   "author": "Gavin McFarland <5551+limitlessloop@users.noreply.github.com>",
   "license": "CC0-1.0",
-  "repository": "limitlessloop/phtml-utility-class",
-  "homepage": "https://github.com/limitlessloop/phtml-utility-class#readme",
-  "bugs": "https://github.com/limitlessloop/phtml-utility-class/issues",
+  "repository": "limitlessloop/stylup",
+  "homepage": "https://github.com/limitlessloop/stylup#readme",
+  "bugs": "https://github.com/limitlessloop/stylup/issues",
   "main": "index.js",
   "module": "index.mjs",
   "files": [
@@ -70,6 +70,7 @@
     "utility class",
     "css",
     "custom properties",
-    "css variables"
+    "css variables",
+    "functional css"
   ]
 }

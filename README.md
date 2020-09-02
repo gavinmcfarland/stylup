@@ -1,10 +1,10 @@
-# pHTML Utility Class [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
+# Stylup [<img src="https://phtml.io/logo.svg" alt="pHTML" width="90" height="90" align="right">][phtml]
 
 [![NPM Version][npm-img]][npm-url]
 [![Build Status][cli-img]][cli-url]
 [![Support Chat][git-img]][git-url]
 
-[pHTML Utility Class] gives your markup super powers.
+[Stylup] gives your markup super powers.
 
 ## Example
 
@@ -77,7 +77,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 - ### Custom Syntax
 
-  Customise the syntax used for functional classes by by overiding the default regex pattern. `phtml-utility-class.process(html, null, options)`;
+  Customise the syntax used for functional classes by by overiding the default regex pattern. `stylup.process(html, null, options)`;
 
   ```js
   // Options
@@ -96,7 +96,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 ## Configure
 
-By default `phtml-utility-class` will look for a file called `phtml-utility-class.config.js` at the root of your project.
+By default `stylup` will look for a file called `stylup.config.js` at the root of your project.
 
 ```js
 // phtml-utility-class.config.js
@@ -129,44 +129,44 @@ module.exports = {
 
 ## Usage
 
-Add [phtml-utility-class] to your project:
+Add [stylup] to your project:
 
 ```bash
-npm install phtml-utility-class --save-dev
+npm install stylup --save-dev
 ```
 
-Use [phtml-utility-class] to process your HTML:
+Use [stylup] to process your HTML:
 
 ```js
-const phtmlUtilityClass = require('phtml-utility-class');
+const stylup = require('stylup');
 
-phtmlUtilityClass.process(YOUR_HTML /*, processOptions, pluginOptions */);
+stylup.process(YOUR_HTML /*, processOptions, pluginOptions */);
 ```
 
 Or use it as a [pHTML] plugin:
 
 ```js
 const phtml = require('phtml');
-const phtmlUtilityClass = require('phtml-utility-class');
+const stylup = require('stylup');
 
 phtml([
-  phtmlUtilityClass(/* pluginOptions */)
+  stylup(/* pluginOptions */)
 ]).process(YOUR_HTML /*, processOptions */);
 ```
 
-[cli-img]: https://img.shields.io/travis/limitlessloop/phtml-utility-class.svg
-[cli-url]: https://travis-ci.org/limitlessloop/phtml-utility-class
+[cli-img]: https://img.shields.io/travis/limitlessloop/stylup.svg
+[cli-url]: https://travis-ci.org/limitlessloop/stylup
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg
 [git-url]: https://gitter.im/phtmlorg/phtml
-[npm-img]: https://img.shields.io/npm/v/phtml-utility-class.svg
-[npm-url]: https://www.npmjs.com/package/phtml-utility-class
+[npm-img]: https://img.shields.io/npm/v/stylup.svg
+[npm-url]: https://www.npmjs.com/package/stylup
 
 [pHTML]: https://github.com/phtmlorg/phtml
-[pHTML Utility Class]: https://github.com/limitlessloop/phtml-utility-class
+[Stylup]: https://github.com/limitlessloop/stylup
 
 ## Options 
 
-By default block styles are not processed. Set this to true to process them. `phtml-utility-class.process(html, null, options)`.
+By default block styles are not processed. Set this to true to process them. `stylup.process(html, null, options)`.
 
 ```js
 // Options

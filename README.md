@@ -6,6 +6,19 @@
 
 [Stylup] gives your markup super powers.
 
+## Features
+
+- ### PostCSS
+  Automatically processes style tags `<style>` and inline styles `style=""`.
+- ### Inline CSS
+  Fully featured CSS can be used inside inline styles.
+  ```html
+  <div style="&:hover { color: red; }"></div>
+  ```
+- ### Functional Class
+
+
+
 ## Example
 
 Use to write inteligent functional classes based on their arguments.

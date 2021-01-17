@@ -6,22 +6,14 @@
 
 [Stylup] gives your markup super powers.
 
-## Features
-
-- ### PostCSS
-  Automatically processes style tags `<style>` and inline styles `style=""`.
-- ### Inline CSS
-  Fully featured CSS can be used inside inline styles.
-  ```html
-  <div style="&:hover { color: red; }"></div>
-  ```
-- ### Functional Class
-
+- Automatically processes style tags `<style>` and inline styles `style=""`.
+- Fully featured CSS can be used inside inline styles.
+- Support for functional class names with dynamic arguments.
 
 
 ## Example
 
-Use to write inteligent functional classes based on their arguments.
+Write inteligent functional classes based on their arguments.
 
 ```html
 <div class="p-4,1,*"></div>
@@ -54,6 +46,22 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 ## Features
 
+- ### Supports PostCSS
+
+  Add support for PostCSS by including a `postcss.config.js` file in your project.
+
+---
+
+- ### Inline Styles
+
+  Make use of all CSS features inline including hover states and media queries.
+
+  ```html
+  <div style="&:hover { color: red; }"></div>
+  ```
+
+---
+
 - ### Functional Class Names
 
   Use inteligent functional class names. Seperate arguments with commas. Use a wildcard to skip arguments. See below for [configuring](#configure) class names.
@@ -70,22 +78,6 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
   ```html
   <div class="h?c-red p-[1,2],4 h?w-1/2"></div>
   ``` -->
----
-
-- ### Inline Styles
-
-  Make use of all CSS features inline including hover states and media queries.
-
-  ```html
-  <div style="&:hover { color: red; }"></div>
-  ```
-
----
-
-- ### Supports PostCSS
-
-  Add support for PostCSS by including a `postcss.config.js` file in your project.
-
 ---
 
 - ### Custom Syntax

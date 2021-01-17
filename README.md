@@ -104,7 +104,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 By default `stylup` will look for a file called `stylup.config.js` at the root of your project.
 
 ```js
-// phtml-utility-class.config.js
+// stylup.config.js
 module.exports = {
   classes: [
     {

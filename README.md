@@ -6,7 +6,7 @@
 
 [Stylup] gives your markup super powers.
 
-- Automatically processes style tags `<style>` and inline styles `style=""`.
+- Automatically processes PostCSS in style tags `<style>` and inline styles `style=""`.
 - Fully featured CSS can be used inside inline styles.
 - Support for functional class names with dynamic arguments.
 

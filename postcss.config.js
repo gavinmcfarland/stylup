@@ -5,11 +5,12 @@ module.exports = {
 		// 'postcss-for': {},
 		// 'postcss-custom-selectors': {},
 		// 'postcss-short': {},
-		// 'postcss-nested': {},
+
 		// 'postcss-logical': {},
 		// 'postcss-proportional-spacing': {},
 		// 'postcss-pow': {}
-		'autoprefixer': {}
+		'autoprefixer': {},
+		'postcss-nested': {}
 		// 'postcss-extend-rule': {},
 		// 'postcss-flexbugs-fixes': {},
 		// 'postcss-preset-env': {

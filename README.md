@@ -159,6 +159,28 @@ phtml([
 ]).process(YOUR_HTML /*, processOptions */);
 ```
 
+Or to use with Svelte
+
+```js
+const stylup = require('stylup');
+
+export default [{
+	// ...
+    plugins: [
+        svelte({
+            preprocess:
+                [{
+                    markup({ content, filename }) {
+                        content = content.replace(/(?<=\<[^>]*)=(\{[^{}]*\})/gmi, (match, p1) => {
+                            return `="${p1}"`
+                        })
+                        return stylup.process(content, { from: filename }).then(result => ({ code: result.html, map: null }));
+                    }
+                }]
+        }),
+        // ...
+```
+
 [cli-img]: https://img.shields.io/travis/limitlessloop/stylup.svg
 [cli-url]: https://travis-ci.org/limitlessloop/stylup
 [git-img]: https://img.shields.io/badge/support-chat-blue.svg

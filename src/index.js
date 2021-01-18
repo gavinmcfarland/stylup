@@ -8,6 +8,8 @@ import fs from 'fs-extra'
 var uniqid = require('uniqid');
 const postcss = require('postcss');
 const postcssrc = require('postcss-load-config');
+const postcssNested = require('postcss-nested')
+const autoprefixer = require('autoprefixer')
 
 
 // Get rules definitions
@@ -52,7 +54,7 @@ function genStyles(utility, acc) {
 async function processPostCSS(src, callback) {
 	const ctx = { parser: true, map: 'inline' };
 	const { plugins, options } = postcssrc.sync(ctx);
-	const { css } = await postcss(plugins).process(src, { from: undefined });
+	const { css } = await postcss([postcssNested(), autoprefixer(), ...plugins]).process(src, { from: undefined });
 
 
 	callback(css)

@@ -12,17 +12,27 @@ const postcssrc = require('postcss-load-config');
 
 // Get rules definitions
 
-var rules;
+function getConfig(path) {
+	var config;
 
-if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
+	if (fs.existsSync(process.cwd() + '/' + path)) {
+		config = require(process.cwd() + '/' + path).classes
+	}
 
-	rules = require(process.cwd() + '/' + 'stylup.config.js').classes
-	// console.log(rules)
-
+	return config
 }
-else {
-	rules = undefined
-}
+
+// var rules;
+
+// if (fs.existsSync(process.cwd() + '/' + 'stylup.config.js')) {
+
+// 	rules = require(process.cwd() + '/' + 'stylup.config.js').classes
+// 	// console.log(rules)
+
+// }
+// else {
+// 	rules = undefined
+// }
 
 function putValuesIntoArray(value) {
 	return Array.isArray(value) ? value : [value]
@@ -135,6 +145,8 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 					// else {
 					// 	console.log('not utilit class')
 					// }
+					let rules = getConfig('stylup.config.js')
+
 					if (rules) {
 						for (let rule of rules) {
 							rule.class = putValuesIntoArray(rule.class);

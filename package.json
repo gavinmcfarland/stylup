@@ -28,7 +28,9 @@
   },
   "dependencies": {
     "lodash": "^4.17.20",
-    "phtml": "^4.1.0"
+    "phtml": "^4.1.0",
+    "postcss-nested": "^5.0.3",
+    "postcss": "^8.2.4"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
@@ -39,9 +41,7 @@
     "eslint": "^5.16.0",
     "fs-extra": "^9.0.1",
     "phtml-tape": "^4.1.0",
-    "postcss": "^8.2.4",
     "postcss-load-config": "^3.0.0",
-    "postcss-nested": "^5.0.3",
     "pre-commit": "^1.2.2",
     "rollup": "^2.36.2",
     "rollup-plugin-babel": "^4.3.2",

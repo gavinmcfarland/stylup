@@ -54,8 +54,15 @@ async function processPostCSS(src = '') {
 	const ctx = { parser: true, map: 'inline' };
 
 	// FIXME: Can't change this to await because it breaks the function
+	let plugins;
+	try {
+		plugins = postcssrc.sync(ctx).plugins
+	}
+	catch (error) {
+		plugins = []
+	}
 
-	const { plugins } = postcssrc.sync(ctx)
+
 	const { css } = await postcss([postcssNested(), autoprefixer(), ...plugins]).process(src, { from: undefined })
 
 
@@ -114,8 +121,10 @@ function processInlineStyles(node, classNameID) {
 // 	return await postcssrc(ctx)
 // }
 
-async function main() {
+async function main(callback) {
 	return await postcssrc(ctx)
+
+	callback()
 }
 
 
@@ -252,7 +261,6 @@ ${styles.join('')}
 }`
 
 					processPostCSS(styles).then((css) => {
-						console.log("css --->", css)
 
 						// Add new array back to element
 						var styleTag = new Element({

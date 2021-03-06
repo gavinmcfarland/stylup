@@ -51,13 +51,14 @@ function genStyles(utility, acc) {
 	return `${styles}`
 }
 
-async function processPostCSS(src, callback) {
+async function processPostCSS(src = '') {
 	const ctx = { parser: true, map: 'inline' };
-	const { plugins, options } = postcssrc.sync(ctx);
-	const { css } = await postcss([postcssNested(), autoprefixer(), ...plugins]).process(src, { from: undefined });
 
-
-	callback(css)
+	// FIXME: Can't change this to await because it breaks the function
+	const { plugins, options } = postcssrc.sync(ctx)
+	const { css } = await postcss([postcssNested(), autoprefixer(), ...plugins]).process(src, { from: undefined })
+	// console.log(css)
+	return css
 }
 
 function processInlineStyles(node, classNameID) {
@@ -68,8 +69,8 @@ function processInlineStyles(node, classNameID) {
 		styles = `
 .${classNameID}.${classNameID} {${inlineStyles}}`
 
-		processPostCSS(styles, (css) => {
-
+		processPostCSS(styles).then((css) => {
+			// console.log(css)
 
 			// Add new array back to element
 			var styleTag = new Element({
@@ -106,7 +107,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 				if (node.name === "style") {
 					const target = node.nodes[0];
 					const source = target.data;
-					processPostCSS(source, (css) => {
+					processPostCSS(source).then((css) => {
 
 						node.innerHTML = css
 					})
@@ -225,7 +226,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 .${classNameID}.${classNameID} {
 ${styles.join('')}
 }`
-					processPostCSS(styles, (css) => {
+					processPostCSS(styles).then((css) => {
 						// Add new array back to element
 						var styleTag = new Element({
 							name: 'style'

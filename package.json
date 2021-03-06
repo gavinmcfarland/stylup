@@ -1,6 +1,6 @@
 {
   "name": "stylup",
-  "version": "0.0.0-alpha.4",
+  "version": "0.0.0-alpha.5",
   "description": "Write utility classes conveniently while optimising your CSS",
   "author": "Gavin McFarland <5551+limitlessloop@users.noreply.github.com>",
   "license": "CC0-1.0",
@@ -41,7 +41,6 @@
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-
     "babel-eslint": "^10.0.1",
     "chokidar": "^3.5.1",
     "eslint": "^5.16.0",

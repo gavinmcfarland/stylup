@@ -134,7 +134,7 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 	return {
 		Element(node) {
 
-			if (opts.processBlockStyles) {
+			if (opts.processBlockStyles === true) {
 				if (node.name === "style") {
 					const target = node.nodes[0];
 					const source = target.data;

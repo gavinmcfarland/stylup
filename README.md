@@ -193,11 +193,11 @@ export default [{
 
 ## Options 
 
-By default block styles are not processed. Set this to true to process them. `stylup.process(html, null, options)`.
+By default block styles also processed. Set this to false to avoid processing them. `stylup.process(html, null, options)`.
 
 ```js
 // Options
 let options = {
-  processBlockStyles: true
+  processBlockStyles: false
 }
 ```

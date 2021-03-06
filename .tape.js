@@ -11,16 +11,16 @@ module.exports = {
     // spacing: {
     //   message: 'supports spacing'
     // },
-    normal: {
-        message: 'normal html'
-    },
+    // normal: {
+    //     message: 'normal html'
+    // },
     example: {
         message: 'testing example'
     },
-    styles: {
-        message: 'styles example',
-        options: {
-            processBlockStyles: true,
-        }
-    }
+    // styles: {
+    //     message: 'styles example',
+    //     options: {
+    //         processBlockStyles: true,
+    //     }
+    // }
 };

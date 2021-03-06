@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "build": "rollup --config .rollup.js --silent",
+    "test:build": "npm run build && node preprocessHtml.js",
     "prepublishOnly": "npm test",
     "pretest:tape": "npm run build",
     "test": "npm run test:tape",
@@ -38,6 +39,7 @@
     "@babel/preset-env": "^7.12.11",
     "autoprefixer": "^10.2.1",
     "babel-eslint": "^10.0.1",
+    "chokidar": "^3.5.1",
     "eslint": "^5.16.0",
     "fs-extra": "^9.0.1",
     "phtml-tape": "^4.1.0",

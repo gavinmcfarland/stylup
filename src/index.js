@@ -11,7 +11,6 @@ const postcssrc = require('postcss-load-config');
 const postcssNested = require('postcss-nested')
 const autoprefixer = require('autoprefixer')
 
-
 // Get rules definitions
 
 function getConfig(path) {
@@ -55,10 +54,20 @@ async function processPostCSS(src = '') {
 	const ctx = { parser: true, map: 'inline' };
 
 	// FIXME: Can't change this to await because it breaks the function
-	const { plugins, options } = postcssrc.sync(ctx)
+
+	const { plugins } = postcssrc.sync(ctx)
 	const { css } = await postcss([postcssNested(), autoprefixer(), ...plugins]).process(src, { from: undefined })
-	// console.log(css)
+
+
 	return css
+
+	// postcssrc(ctx).then((({ plugins, options }) => {
+	// 	postcss([postcssNested(), autoprefixer(), ...plugins])
+	// 		.process(src, { from: undefined })
+	// 		.then((css) => {
+	// 			callback(css)
+	// 		})
+	// }))
 }
 
 function processInlineStyles(node, classNameID) {
@@ -70,7 +79,7 @@ function processInlineStyles(node, classNameID) {
 .${classNameID}.${classNameID} {${inlineStyles}}`
 
 		processPostCSS(styles).then((css) => {
-			// console.log(css)
+			// console.log("css --->", css)
 
 			// Add new array back to element
 			var styleTag = new Element({
@@ -92,14 +101,27 @@ function processInlineStyles(node, classNameID) {
 
 			classNames.push(classNameID)
 			node.attrs.add({ class: classNames.join(' ') });
+		}).catch((error) => {
+			console.log("error", error)
 		})
 
 
 	}
 }
 
+// async function getPostConfig() {
+// 	const ctx = { parser: true, map: 'inline' };
+// 	return await postcssrc(ctx)
+// }
+
+async function main() {
+	return await postcssrc(ctx)
+}
+
+
 export default new phtml.Plugin('phtml-utility-class', opts => {
 	opts = opts || {}
+
 	return {
 		Element(node) {
 
@@ -110,6 +132,8 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 					processPostCSS(source).then((css) => {
 
 						node.innerHTML = css
+					}).catch((error) => {
+						console.log(error)
 					})
 				}
 			}
@@ -226,11 +250,15 @@ export default new phtml.Plugin('phtml-utility-class', opts => {
 .${classNameID}.${classNameID} {
 ${styles.join('')}
 }`
+
 					processPostCSS(styles).then((css) => {
+						console.log("css --->", css)
+
 						// Add new array back to element
 						var styleTag = new Element({
 							name: 'style'
 						}, null, css)
+
 
 						// Add new array back to element
 						var spanTag = new Element({
@@ -242,9 +270,12 @@ ${styles.join('')}
 
 						node.before(spanTag)
 
+
 						// Add classNameID
 						newClassNames.push(classNameID)
 						node.attrs.add({ class: newClassNames.join(' ') });
+					}).catch((error) => {
+						console.log(error)
 					})
 
 
@@ -252,5 +283,5 @@ ${styles.join('')}
 			}
 
 		}
-	};
+	}
 });

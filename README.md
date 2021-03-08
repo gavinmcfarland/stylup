@@ -19,7 +19,7 @@ Write inteligent functional classes based on their arguments.
 <div class="p-4,1,*"></div>
 ```
 
-Transforms into styles based on your [configuration](#configuration).
+Transforms into styles based on your [configuration](#configuration) (not setup by default).
 
 ```html
 <style>
@@ -99,7 +99,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
   }
   ```
 
-## Configure
+## configuration
 
 By default `stylup` will look for a file called `stylup.config.js` at the root of your project.
 

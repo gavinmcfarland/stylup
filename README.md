@@ -64,7 +64,7 @@ When used with a stylesheet it becomes very powerful, requiring minimal pre conf
 
 - ### Functional Class Names
 
-  Use inteligent functional class names. Seperate arguments with commas. Use a wildcard to skip arguments. See below for [configuring](#configure) class names.
+  Use inteligent functional class names. Seperate arguments with commas. Use a wildcard to skip arguments. See below for [configuring](#configuration) class names.
 
   ```html
   <div class="p-4 m-*,auto fl-wrap"></div>
